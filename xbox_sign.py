@@ -4,8 +4,8 @@
 Xbox俱乐部自动签到
 青龙面板部署脚本
 
-环境变量: xbox_data（多个账号用 @ 分隔，每个账号为一个 sid）
-示例: export xbox_data="sid1@sid2"
+环境变量: xbox_data（多个账号用 & 或 换行 分隔，每个账号为一个 sid）
+示例: export xbox_data="sid1&sid2"
 
 cron: 0 0,7 * * *
 """
@@ -166,8 +166,8 @@ def parse_env(env_str: str) -> list:
     if not env_str:
         return []
     env_str = env_str.strip()
-    if "@" in env_str:
-        return [s.strip() for s in env_str.split("@") if s.strip()]
+    if "&" in env_str:
+        return [s.strip() for s in env_str.split("&") if s.strip()]
     elif "\n" in env_str:
         return [s.strip() for s in env_str.split("\n") if s.strip()]
     else:
