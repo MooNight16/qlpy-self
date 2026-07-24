@@ -7,7 +7,7 @@
 ==================== 环境变量 ====================
   名称: monalisa_webchat_id
   值:   你的 webChatID(微信OpenID)
-        多账号用 @ 分隔，例如: oXXX1@oXXX2
+        多账号用 & 分隔，例如: oXXX1&oXXX2
 
   获取方式: 抓包小程序，找到 doAction 请求中
             action=getCustomer&webChatID=xxxx 的 xxxx 值
@@ -372,7 +372,7 @@ def main():
         logger.info("请在青龙面板 -> 环境变量 中添加:")
         logger.info("  名称: monalisa_webchat_id")
         logger.info("  值:   你的 webChatID(微信OpenID)")
-        logger.info("        多账号用 @ 分隔")
+        logger.info("        多账号用 & 分隔")
         logger.info("")
         logger.info("获取方式:")
         logger.info("  抓包小程序，找到 action=getCustomer 请求")
@@ -380,7 +380,7 @@ def main():
         sys.exit(1)
 
     # 分割多账号
-    accounts = [x.strip() for x in webchat_ids_raw.split("@") if x.strip()]
+    accounts = [x.strip() for x in webchat_ids_raw.split("&") if x.strip()]
     logger.info(f"📋 共 {len(accounts)} 个账号")
     logger.info("")
 
