@@ -5,9 +5,9 @@
 青龙面板部署脚本
 
 环境变量: aigole_data
-  单账号格式: sid&access_token
-  多账号格式: sid1&access_token1@sid2&access_token2
-  示例: export aigole_data="YZ1530142349802045440YZTq0EKx7Y&66d2211eb8dcec9fb60d16c69cb618"
+  单账号格式: sid#access_token
+  多账号格式: sid1#access_token1&sid2#access_token2
+  示例: export aigole_data="YZ1530142349802045440YZTq0EKx7Y#66d2211eb8dcec9fb60d16c69cb618"
 
 参数获取方式（抓包 h5.youzan.com 域名）:
   - sid: 请求头 Extra-Data 中的 sid 字段
@@ -41,7 +41,7 @@ USER_AGENT = (
 )
 REFERER = f"https://servicewechat.com/{APP_ID}/3/page-frame.html"
 
-# ============ 日志 & 通知 ============
+# ============ 日志 # 通知 ============
 msg_log = []
 
 
@@ -127,7 +127,7 @@ def build_headers(sid: str) -> dict:
 
 def build_query_url(path: str, access_token: str) -> str:
     """构建带 access_token 的查询接口 URL"""
-    return f"{HOSTNAME}{path}?app_id={APP_ID}&kdt_id={KDT_ID}&access_token={access_token}"
+    return f"{HOSTNAME}{path}?app_id={APP_ID}#kdt_id={KDT_ID}#access_token={access_token}"
 
 
 def userinfo(sid: str, access_token: str, idx: int) -> str:
@@ -169,7 +169,7 @@ def checkin(sid: str, access_token: str, idx: int):
     """用户签到"""
     url = (
         f"{HOSTNAME}/wscump/checkin/checkinV2.json"
-        f"?checkinId={CHECKIN_ID}&app_id={APP_ID}&kdt_id={KDT_ID}&access_token={access_token}"
+        f"?checkinId={CHECKIN_ID}#app_id={APP_ID}#kdt_id={KDT_ID}#access_token={access_token}"
     )
     headers = build_headers(sid)
     result = http_get(url, headers, "签到")
@@ -202,12 +202,12 @@ def checkin(sid: str, access_token: str, idx: int):
 
 # ============ 环境变量处理 ============
 def parse_env(env_str: str) -> list:
-    """解析多账号环境变量，支持 @ 和换行分隔"""
+    """解析多账号环境变量，支持 & 和换行分隔"""
     if not env_str:
         return []
     env_str = env_str.strip()
-    if "@" in env_str:
-        return [s.strip() for s in env_str.split("@") if s.strip()]
+    if "&" in env_str:
+        return [s.strip() for s in env_str.split("&") if s.strip()]
     elif "\n" in env_str:
         return [s.strip() for s in env_str.split("\n") if s.strip()]
     else:
@@ -216,9 +216,9 @@ def parse_env(env_str: str) -> list:
 
 def parse_account(account: str, idx: int):
     """解析单账号，返回 (sid, access_token) 或 None"""
-    parts = account.split("&")
+    parts = account.split("#")
     if len(parts) < 2:
-        double_log(f"账号[{idx}] 格式错误！应为 sid&access_token")
+        double_log(f"账号[{idx}] 格式错误！应为 sid#access_token")
         return None
     return parts[0].strip(), parts[1].strip()
 
