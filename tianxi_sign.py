@@ -212,7 +212,7 @@ def main():
         message = '未设置 TIANXI_TOKEN 环境变量\n'
         return
 
-    # 解析多账号（支持 & 或换行分隔）
+    # 解析多账号（支持 & 或 换行 分隔）
     token_list = [t.strip() for t in token_raw.replace('\n', '&').split('&') if t.strip()]
     account_count = len(token_list)
     print(f'共检测到 {account_count} 个账号')
