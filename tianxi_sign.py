@@ -9,7 +9,7 @@
   Host: https://mc.kukahome.com
   在请求头中获取 AccessToken 和 X-Customer，格式：
     export TIANXI_TOKEN = 'AccessToken#X-Customer'
-  多账号用 & 分隔
+  多账号用 & 或 换行 分隔
 
 定时规则 (cron): 5 10 * * *
 
